@@ -7,4 +7,4 @@ if __name__ == "__main__":
     data = book.parse
 
     app = application()
-    app
+    app.start()
