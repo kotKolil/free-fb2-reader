@@ -1,3 +1,4 @@
+from source.application import application
 from source.parser import *
 #from source.application import *
 
