@@ -17,26 +17,30 @@ class Book(object):
         self.author_last_name = None
         self.author_first_name = None
 
-
     def parse(self):
-        with (open(self.filename, encoding=self.encoding) as document):
-            document = parse(document)
+        document = parse(self.filename)
 
-            self.document = document
-            self.genre = self.loadTagValueFromXML("genre")
-            self.lang = self.loadTagValueFromXML("lang")
-            self.author_last_name = self.loadTagValueFromXML("last-name")
-            self.author_last_name = self.loadTagValueFromXML("first-name")
+        self.document = document
+        self.genre = self.loadTagValueFromXML("genre")
+        self.lang = self.loadTagValueFromXML("lang")
+        self.author_last_name = self.loadTagValueFromXML("last-name")
+        self.author_last_name = self.loadTagValueFromXML("first-name")
 
-            paragraphs = document.getElementsByTagName("section")
-            for paragraph in paragraphs:
-                text_nodes = [
-                    node.childNodes[0].nodeValue for node in paragraph.childNodes
-                    if node.nodeName == 'p' and node.childNodes[0].nodeValue
-                ]
-            self.text_data = text_nodes
-            print(self.text_data)
-            return 1
+        print(self.genre)
+        print(self.lang)
+        print(self.author_first_name)
+        print(self.author_last_name)
+
+        paragraphs = document.getElementsByTagName("section")
+        for paragraph in paragraphs:
+            text_nodes = [
+                node.childNodes[0].nodeValue for node in paragraph.childNodes
+                if node.nodeName == 'p' and node.childNodes[0].nodeValue
+            ]
+            print(text_nodes)
+        self.text_data = text_nodes
+        print(self.text_data)
+        return 1
 
     def loadTagValueFromXML(self, tag_name):
         try:
