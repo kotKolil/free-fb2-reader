@@ -35,6 +35,7 @@ class Book(object):
                     if node.nodeName == 'p' and node.childNodes[0].nodeValue
                 ]
             self.text_data = text_nodes
+            print(self.text_data)
             return 1
 
     def loadTagValueFromXML(self, tag_name):

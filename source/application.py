@@ -1,21 +1,22 @@
-from PyQt6.QtWidgets import QApplication, QWidget
-
-# Only needed for access to command line arguments
+from PyQt5.QtWidgets import *
 import sys
 
+from config import *
 
-class application(object):
-
-    def __init__(self):
-        # You need one (and only one) QApplication instance per application.
-        # Pass in sys.argv to allow command line arguments for your app.
-        # If you know you won't use command line arguments QApplication([]) works too.
+class application:
+    def __init__(self, book_data: list) -> object:
         self.app = QApplication(sys.argv)
+        self.window = QWidget()
+        self.window.setWindowTitle(WINDOW_NAME)
+        self.window.resize(WINDOW_START_X, WINDOW_START_Y)
+        self.window.show()
+        self.line = QScrollArea()
+        print(book_data)
+        for i in book_data:
+            string = QLabel(i)
+            string.setWordWrap(True)
+            self.line.addWidget(string)
 
-        # Create a Qt widget, which will be our window.
-        window = QWidget()
-        window.show()  # IMPORTANT!!!!! Windows are hidden by default.
-
+        self.window.setLayout(self.line)
     def start(self):
-        # Start the event loop.
-        self.app.exec()
+        self.app.exec_()

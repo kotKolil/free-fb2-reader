@@ -1,0 +1,4 @@
+WINDOW_NAME = "simple fb2 reader"
+WINDOW_START_X = 400
+WINDOW_START_Y = 400
+
