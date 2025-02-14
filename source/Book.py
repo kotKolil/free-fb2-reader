@@ -14,8 +14,6 @@ class Book(object):
         self.author = None
         self.title = None
         self.lang = None
-        self.author_last_name = None
-        self.author_first_name = None
 
     def parse(self):
         document = parse(self.filename)
@@ -23,13 +21,8 @@ class Book(object):
         self.document = document
         self.genre = self.loadTagValueFromXML("genre")
         self.lang = self.loadTagValueFromXML("lang")
-        self.author_last_name = self.loadTagValueFromXML("last-name")
-        self.author_last_name = self.loadTagValueFromXML("first-name")
-
-        print(self.genre)
-        print(self.lang)
-        print(self.author_first_name)
-        print(self.author_last_name)
+        self.author = self.loadTagValueFromXML("last-name") + self.loadTagValueFromXML("first-name")
+        self.title = self.loadTagValueFromXML("book-title")
 
         paragraphs = document.getElementsByTagName("section")
         for paragraph in paragraphs:

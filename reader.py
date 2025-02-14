@@ -1,8 +1,9 @@
 from source.bookviewr import *
-from source.parser import *
+from source.Book import *
+from source.styles.ConsoleTheme import *
 
 if __name__ == "__main__":
     book = Book("samples/Отрочество Л.Н. Толстой.fb2", encoding="UTF-8")
     book.parse()
-    app = BookViewr(book.text_data)
+    app = BookViewr(book, appStyle = ConsoleTheme())
     app.start()
