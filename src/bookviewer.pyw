@@ -1,27 +1,26 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
 from src.Book import *
+from src.configParser import *
+
 from PyQt5.Qt import *
-from src.styles.WhiteTheme import *
 
 import sys
-from config import *
 
 
 class BookViewer(object):
-    def __init__(self, appStyle: style = WhiteTheme, appStyleFromSystem="Windows",
-                 app=QApplication(sys.argv)) -> None:
+    def __init__(self, app=QApplication(sys.argv), appConfig = configParser()) -> None:
 
         self.app = app
         self.Book = None
+        self.appConfig = appConfig
+        self.appStyle = self.appConfig.APP_THEME
 
         # creating and configuring BookViewer window
         self.content = QWidget()
         self.content.setFixedSize(500, 500)
         self.content.setWindowIcon(QIcon("./media/karfagen.png"))
         self.content.setWindowTitle(f"Karfagen Book Viewer")
-        self.content.setStyleSheet(appStyle.style)
-        self.text_font = QFont(FONT_NAME, TEXT_SIZE)
+        self.content.setStyleSheet(self.appStyle)
+        self.text_font = QFont(self.appConfig.FONT_NAME, self.appConfig.TEXT_SIZE)
         self.text_height = QFontMetrics(self.text_font)
 
         self.layout = QVBoxLayout(self.content)
@@ -112,7 +111,7 @@ class BookViewer(object):
         pages= []
         page = []
         current_text_height = 0
-        font_metrics = QFontMetrics(QFont(FONT_NAME, TEXT_SIZE))
+        font_metrics = QFontMetrics(QFont(self.appConfig.FONT_NAME, self.appConfig.TEXT_SIZE))
 
         for paragraph in self.Book.text_data:
             # Split paragraph into lines that fit
