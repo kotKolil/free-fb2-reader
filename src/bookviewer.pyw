@@ -11,6 +11,7 @@ class BookViewer(object):
 
         self.app = app
         self.Book = None
+        self.pages = []
         self.appConfig = appConfig
         self.appStyle = self.appConfig.APP_THEME
 
@@ -28,6 +29,7 @@ class BookViewer(object):
         self.pageNumber = 0
 
         self.textLabel = QLabel()
+        self.textLabel.setWordWrap(1)
         self.textLabel.setFixedWidth(400)
         self.textLabel.setFixedHeight(400)
 
@@ -63,10 +65,23 @@ class BookViewer(object):
         self.btn_next = QPushButton(text=">")
         self.btn_next.clicked.connect(self.next_page)
 
+        self.goToPageField = QLineEdit()
+        self.goToPageField.setValidator(QIntValidator())
+        self.goToPageField.setPlaceholderText("Enter number of page to go")
+        self.goToPageField.setStyleSheet("""
+            QLineEdit {
+                border: 0px black solid;
+                background-color: #bbbbbb;
+                color: #000000;
+            }
+        """)
+        self.goToPageField.editingFinished.connect(self.pageByNumber)
+
         self.navigationBoxLayout.addWidget(self.btn_prev)
         self.navigationBoxLayout.setAlignment(Qt.AlignCenter)
         self.navigationBoxLayout.addWidget(self.pageNumberLabel)
         self.navigationBoxLayout.addWidget(self.btn_next)
+        self.navigationBoxLayout.addWidget(self.goToPageField)
 
         self.navigationBox.setLayout(self.navigationBoxLayout)
 
@@ -84,10 +99,16 @@ class BookViewer(object):
 
     def render_page(self, pageNumber):
         try:
-            self.pageNumberLabel.setText(str(pageNumber + 1))
-            self.textLabel.setText("".join(self.pages[self.pageNumber]))
+            self.pageNumberLabel.setText(f"{str(pageNumber + 1)}/{len(self.pages)}")
+            self.textLabel.setText("".join(self.pages[pageNumber]))
         except Exception as e:
             self.show_messagebox(str(e))
+
+    def pageByNumber(self):
+        pageNumber = int(self.goToPageField.text())
+        if pageNumber > 0 and pageNumber <= len(self.pages):
+            self.pageNumber = pageNumber
+            self.render_page(pageNumber - 1)
 
     def prev_page(self):
         if self.pageNumber > 0 and self.Book:
